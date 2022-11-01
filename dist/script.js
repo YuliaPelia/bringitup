@@ -985,6 +985,8 @@ function () {
   _createClass(Slider, [{
     key: "showSlides",
     value: function showSlides(n) {
+      var _this = this;
+
       // якщо n буде більною за кількість слайдів
       if (n > this.slides.length) {
         // повертаємо слайдер на початок
@@ -995,7 +997,24 @@ function () {
       if (n < 1) {
         // тоді slideIndex буде рівний останньому елементу
         this.slideIndex = this.slides.length;
-      } // приховуєм всі слайди і показуємо той слайд з якого все починається
+      } // робимо так що коли користувач заходить на сторінку 3, через 3 сек випливає необхідний блок
+
+
+      try {
+        this.hanson.style.display = 'none'; // якщо ми знаїодимось на 3 сторінці, тоді показуємо блок hanson через 3 секунди
+
+        if (n == 3) {
+          this.hanson.classList.add('animated');
+          setTimeout(function () {
+            _this.hanson.style.display = 'block';
+
+            _this.hanson.classList.add('slideInUp');
+          }, 3000);
+        } else {
+          // якщо користувач йде з 3 сторінки, тоді ми забираємо цей клас
+          this.hanson.classList.remove('slideInUp');
+        }
+      } catch (e) {} // приховуєм всі слайди і показуємо той слайд з якого все починається
 
 
       this.slides.forEach(function (slide) {
@@ -1018,19 +1037,29 @@ function () {
   }, {
     key: "render",
     value: function render() {
-      var _this = this;
+      var _this2 = this;
 
+      // використовуєм trycatch для того щоб якщо цей код не виконався загальний код не зламався
+      try {
+        // прлучаєм блок тільки тоді коли буде запускатися метод render
+        // hanson - назва блоку
+        this.hanson = document.querySelector('.hanson');
+      } catch (e) {} // прлучаєм блок тільки тоді коли буде запускатися метод render
+      // hanson - назва блоку
+
+
+      this.hanson = document.querySelector('.hanson');
       this.btns.forEach(function (item) {
         item.addEventListener('click', function () {
           // переключаєм слайди при кліку на кнопки
-          _this.plusSlides(1); // оскільки в першому слайді в нас тільки одна кнопка яка переключає вправо
+          _this2.plusSlides(1); // оскільки в першому слайді в нас тільки одна кнопка яка переключає вправо
 
         });
         item.parentNode.previousElementSibling.addEventListener('click', function (e) {
           e.preventDefault();
-          _this.slideIndex = 1;
+          _this2.slideIndex = 1;
 
-          _this.showSlides(_this.slideIndex);
+          _this2.showSlides(_this2.slideIndex);
         });
       });
       this.showSlides(this.slideIndex);
