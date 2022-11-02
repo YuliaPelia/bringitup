@@ -1,6 +1,7 @@
 import MainSlider from './modules/slider/slider-main';
 import MiniSlider from './modules/slider/slider-mini';
 import VideoPlayer from './modules/playvideo';
+import Difference from './modules/difference';
 
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -37,6 +38,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const player = new VideoPlayer('.showup .play', '.overlay');
     player.init();
-});
 
-// Як тільки користувач наводить мишку на слайдер ми його зупиняємо
+    new Difference('.officerold', '.officernew', '.officer__card-item').init();
+});
