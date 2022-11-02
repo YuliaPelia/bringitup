@@ -1,8 +1,8 @@
 import Slider from './slider';
 
 export default class MainSlider extends Slider {
-    constructor(page, btns) {
-        super(page, btns);
+    constructor(btns) {
+        super(btns);
     }
 
     
@@ -41,7 +41,7 @@ export default class MainSlider extends Slider {
         // приховуєм всі слайди і показуємо той слайд з якого все починається
         this.slides.forEach(slide => {
             // плавне прогортування
-            slide.classList.add('animated');
+            slide.classList.add('animated', 'slideInUp');
             // приховуємо всі слайди
             slide.style.display = 'none';
         });
