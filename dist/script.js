@@ -4964,20 +4964,35 @@ function (_Slider) {
       });
     }
   }, {
-    key: "init",
-    value: function init() {
+    key: "activateAnimation",
+    value: function activateAnimation() {
       var _this3 = this;
 
+      var poused = false;
+
+      if (this.autoplay) {
+        poused = setInterval(function () {
+          return _this3.nextSlide();
+        }, 5000);
+      }
+
+      this.slides[0].parentNode.addEventListener('mouseenter', function () {
+        clearInterval(poused);
+      });
+      this.slides[0].parentNode.addEventListener('mouseleave', function () {
+        _this3.activateAnimation();
+      });
+    }
+  }, {
+    key: "init",
+    value: function init() {
       // cssText - записуєм необхідні css-властивості і вони застосуються
       this.container.style.cssText = "\n            display: flex;\n            flex-wrap: wrap;\n            overflow: hidden;\n            align-items: flex-start;\n        ";
       this.bindTriggers();
       this.decorizeSlides();
-
-      if (this.autoplay) {
-        setInterval(function () {
-          return _this3.nextSlide();
-        }, 5000);
-      }
+      this.activateAnimation(); // if(this.autoplay) {
+      //     setInterval(() => this.nextSlide(), 5000);
+      // }
     }
   }]);
 

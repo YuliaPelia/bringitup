@@ -67,6 +67,21 @@ export default class MiniSlider extends Slider {
         });
     }
 
+    activateAnimation() {
+        let poused = false;
+        if(this.autoplay) {
+            poused = setInterval(() => this.nextSlide(), 5000);
+        }
+
+        this.slides[0].parentNode.addEventListener('mouseenter', () => {
+            clearInterval(poused);
+        });
+    
+        this.slides[0].parentNode.addEventListener('mouseleave', () => {
+            this.activateAnimation();
+        });
+    }
+
     init() {
         // cssText - записуєм необхідні css-властивості і вони застосуються
         this.container.style.cssText = `
@@ -77,9 +92,10 @@ export default class MiniSlider extends Slider {
         `;
         this.bindTriggers();
         this.decorizeSlides();
+        this.activateAnimation();
 
-        if(this.autoplay) {
-            setInterval(() => this.nextSlide(), 5000);
-        }
+        // if(this.autoplay) {
+        //     setInterval(() => this.nextSlide(), 5000);
+        // }
     }
 }
