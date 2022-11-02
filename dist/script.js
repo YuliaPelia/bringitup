@@ -931,11 +931,122 @@ module.exports = g;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/slider */ "./src/js/modules/slider.js");
+/* harmony import */ var _modules_playvideo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/playvideo */ "./src/js/modules/playvideo.js");
+
 
 window.addEventListener('DOMContentLoaded', function () {
   var slider = new _modules_slider__WEBPACK_IMPORTED_MODULE_0__["default"]('.page', '.next');
   slider.render();
+  var player = new _modules_playvideo__WEBPACK_IMPORTED_MODULE_1__["default"]('.showup .play', '.overlay');
+  player.init();
 });
+
+/***/ }),
+
+/***/ "./src/js/modules/playvideo.js":
+/*!*************************************!*\
+  !*** ./src/js/modules/playvideo.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return VideoPlayer; });
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var VideoPlayer =
+/*#__PURE__*/
+function () {
+  // triggers - кнопка яка буде відкривати модальне вікно
+  // overlay - модальне вікно, в нашому кожному модальному вікні 
+  // є клас close який відповідає за закриття модального вікна і на нього ми будемо навішувати обробника подій
+  function VideoPlayer(triggers, overlay) {
+    _classCallCheck(this, VideoPlayer);
+
+    this.btns = document.querySelectorAll(triggers);
+    this.overlay = document.querySelector(overlay);
+    this.close = this.overlay.querySelector('.close');
+  }
+
+  _createClass(VideoPlayer, [{
+    key: "bindTriggers",
+    value: function bindTriggers() {
+      var _this = this;
+
+      // коли ми будемо нажимати на одну з цих кнопок у нас буде відкриватись плеєр
+      // кожній кнопці буде приствоєний різний URL - відповідно будуть відкриватись різні плеєри
+      this.btns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (document.querySelector('iframe#frame')) {
+            _this.overlay.style.display = 'flex';
+          } else {
+            // получаєм URL
+            var path = btn.getAttribute('data-url');
+
+            _this.createPlayer(path);
+          }
+        });
+      });
+    } // метод закриття модального вікна
+
+  }, {
+    key: "bindCloseBtn",
+    value: function bindCloseBtn() {
+      var _this2 = this;
+
+      this.close.addEventListener('click', function () {
+        _this2.overlay.style.display = 'none'; // зупиняємо відео яке знаходиться в модальному вікні
+
+        _this2.player.stopVideo();
+      });
+    } // url - його ми будемо діставати з кнопки
+
+  }, {
+    key: "createPlayer",
+    value: function createPlayer(url) {
+      // YT - буде підтягуватися з серверів ютуба
+      // 'frame' - id блоку який ми будемо заміщувати нашим плеєром
+      // videoId - сюди буде підгружуватись id відео, яке є на ютубі
+      // `` - означає що ми videoId будемо підставляти динамічно
+      this.player = new YT.Player('frame', {
+        height: '100%',
+        width: '100%',
+        videoId: "".concat(url)
+      });
+      console.log(this.player);
+      this.overlay.style.display = 'flex';
+    } // створюємо плеєр використовуючи API який буде працювати з ютубом (з документації)
+
+  }, {
+    key: "init",
+    value: function init() {
+      // стоворюєм змінну всередині якої створюємо тег script
+      var tag = document.createElement('script'); // встановлюємо тегу атрибут src де ми звертаємось до серверу ютуба і беремо звідти iframe_api
+
+      tag.src = "https://www.youtube.com/iframe_api"; // знаходимо на сторінці перший серипт який там є
+
+      var firstScriptTag = document.getElementsByTagName('script')[0]; // звертаємся до головного батька який є на сторінці і перед першим скриптом поміщаємо серипт з iframe_api
+      // (типу асинхронне підключення скрипта)
+
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      this.bindTriggers();
+      this.bindCloseBtn();
+    }
+  }]);
+
+  return VideoPlayer;
+}();
+
+
 
 /***/ }),
 
