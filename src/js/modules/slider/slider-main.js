@@ -1,18 +1,11 @@
-export default class Slider {
-    // описуєм кодом слайдер який буде на сторінці
-    // вказуємо слайдеру на якій сторінці він буде працювати
-    // які слайди будуть всередині
-    // тріггери(кнопки) які будуть переключати ці слайди
-    // btns - селектори кнопок які будуть переключати улументи
-    constructor(page, btns) {
-        // поміщаєм ті властивості, які будуть описувати слайдер на початковому етапі
-        // тобто ті речі які описують слайдер ще до того етапу як він почне працювати
-        this.page = document.querySelector(page); // головний блок який є на сторінці
-        this.slides = this.page.children; // слайди які будуть всередині слайдера, які необхідно буде переміщувати
-        this.btns = document.querySelectorAll(btns);
-        this.slideIndex = 1; // оприділятиме поточний слайд, потрібен для того щоб орієнтуватись куди рухатись далі
+import Slider from './slider';
 
+export default class MainSlider extends Slider {
+    constructor(page, btns) {
+        super(page, btns);
     }
+
+    
     // створрюєм методі
     // n - відповідатиме за те куди рухається слайдер
     showSlides(n) {
@@ -90,8 +83,3 @@ export default class Slider {
         this.showSlides(this.slideIndex);
     }
 }
-
-
-
-
-
