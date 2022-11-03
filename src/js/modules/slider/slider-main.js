@@ -41,7 +41,7 @@ export default class MainSlider extends Slider {
         // приховуєм всі слайди і показуємо той слайд з якого все починається
         this.slides.forEach(slide => {
             // плавне прогортування
-            slide.classList.add('animated', 'slideInUp');
+            // slide.classList.add('animated', 'slideInUp');
             // приховуємо всі слайди
             slide.style.display = 'none';
         });
@@ -54,19 +54,7 @@ export default class MainSlider extends Slider {
         this.showSlides(this.slideIndex += n);
     }
 
-    // це є найголовніший метод 
-    // цей метод об'єднює всі інші ф-ції які були прописані в цьому класі
-    render() {
-        // використовуєм trycatch для того щоб якщо цей код не виконався загальний код не зламався
-        try {
-            // прлучаєм блок тільки тоді коли буде запускатися метод render
-            // hanson - назва блоку
-            this.hanson = document.querySelector('.hanson');
-        } catch(e) {}
-        // прлучаєм блок тільки тоді коли буде запускатися метод render
-        // hanson - назва блоку
-        this.hanson = document.querySelector('.hanson');
-
+    bindTriggers() {
         this.btns.forEach(item => {
             item.addEventListener('click', () => {
                 // переключаєм слайди при кліку на кнопки
@@ -80,6 +68,36 @@ export default class MainSlider extends Slider {
             });
         });
 
-        this.showSlides(this.slideIndex);
+        document.querySelectorAll('.prevmodule').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                this.plusSlides(-1);
+            });
+        });
+        document.querySelectorAll('.nextmodule').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                this.plusSlides(1);
+            });
+        });
+    }
+
+    // це є найголовніший метод 
+    // цей метод об'єднює всі інші ф-ції які були прописані в цьому класі
+    render() {
+        if(this.container) {
+            // використовуєм trycatch для того щоб якщо цей код не виконався загальний код не зламався
+            try {
+                // прлучаєм блок тільки тоді коли буде запускатися метод render
+                // hanson - назва блоку
+                this.hanson = document.querySelector('.hanson');
+            } catch(e) {}
+            // прлучаєм блок тільки тоді коли буде запускатися метод render
+            // hanson - назва блоку
+            this.showSlides(this.slideIndex);
+            this.bindTriggers();
+        } 
     }
 }

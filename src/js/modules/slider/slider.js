@@ -16,10 +16,11 @@ export default class Slider {
         // поміщаєм ті властивості, які будуть описувати слайдер на початковому етапі
         // тобто ті речі які описують слайдер ще до того етапу як він почне працювати
         this.container = document.querySelector(container); // головний блок який є на сторінці
-        this.slides = this.container.children; // слайди які будуть всередині слайдера, які необхідно буде переміщувати
+        try {this.slides = this.container.children;} catch(e){} // слайди які будуть всередині слайдера, які необхідно буде переміщувати
         this.btns = document.querySelectorAll(btns);
         this.prev = document.querySelector(prev);
         this.next = document.querySelector(next);
+        // this.prevModule = document.querySelectorAll('.prevmodule');
         this.activeClass = activeClass;
         this.animate = animate;
         this.autoplay = autoplay;
