@@ -3,7 +3,8 @@ import MiniSlider from './modules/slider/slider-mini';
 import VideoPlayer from './modules/playvideo';
 import Difference from './modules/difference';
 import Forms from './modules/forms';
-
+import Accordion from './modules/accordion';
+import Download from './modules/download';
 
 window.addEventListener('DOMContentLoaded', () => {
     const slider = new MainSlider({btns: '.next', container: '.page'});
@@ -44,6 +45,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     new Difference('.officerold', '.officernew', '.officer__card-item').init();
     new Forms('.form').init();
-});
 
-// контекст виклику почитати дізнатись як які команди працюють
+
+    new Accordion('.plus__content').init();
+
+    new Download('.download').init();
+});
